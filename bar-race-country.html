@@ -18,7 +18,7 @@
     var app = {};
     var option;
 
-    const updateFrequency = 9000;
+    const updateFrequency = 2000;
     const dimension = 2;
 
     // Function to generate a random color
@@ -79,7 +79,21 @@
           max: 10,
           axisLabel: {
             show: true,
-            fontSize: 14
+            fontSize: 14,
+            formatter: function (value) {
+              return '{img|' + value + '}';
+            },
+            rich: {
+              img: {
+                height: 500,
+                align: 'center',
+                backgroundColor: {
+                  image: function (value) {
+                    return 'images/' + value + '.png'; // Assuming the images are in PNG format
+                  }
+                }
+              }
+            }
           },
           animationDuration: 300,
           animationDurationUpdate: 300
