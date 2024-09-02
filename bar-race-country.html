@@ -18,19 +18,21 @@
     var app = {};
     var option;
 
-    const updateFrequency = 5000;
+    const updateFrequency = 9000;
     const dimension = 2;
 
-    // Define a color map for regions
-    const regionColors = {
-      "Adur": '#5470C6',
-      "Allerdale": '#91CC75',
-      "Amber Valley": '#FAC858',
-      "Arun": '#EE6666',
-      "Ashfield": '#73C0DE',
-      // Add more regions and their colors here
-      // You can assign a color to every region
-    };
+    // Function to generate a random color
+    function getRandomColor() {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+    // Store random colors for each region
+    const regionColors = {};
 
     $.getJSON('sales.json', function (data) {
       const years = [];
@@ -47,6 +49,7 @@
 
         if (!regionData[region]) {
           regionData[region] = [];
+          regionColors[region] = getRandomColor(); // Assign a random color to each region
         }
 
         regionData[region].push([year, region, sales]);
@@ -88,7 +91,7 @@
             type: 'bar',
             itemStyle: {
               color: function (param) {
-                return regionColors[param.value[1]] || '#5470c6';
+                return regionColors[param.value[1]]; // Use the randomly generated color
               }
             },
             encode: {
